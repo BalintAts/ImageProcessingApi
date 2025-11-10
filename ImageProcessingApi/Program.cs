@@ -1,4 +1,6 @@
 
+using ImageProcessingApi.Logic;
+
 namespace ImageProcessingApi
 {
     public class Program
@@ -13,6 +15,9 @@ namespace ImageProcessingApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<ImageFileHandler, ImageFileHandler>();
+
 
             var app = builder.Build();
 
