@@ -9,10 +9,10 @@ namespace ImageProcessingApi.Controllers
     public class ImageController : Controller
     {
         private readonly ILogger<ImageController> _logger;
-        private readonly ImageFileHandler _imageFileHandler;
+        private readonly ImageFileProcessor _imageFileHandler;
         private readonly IWebHostEnvironment _env;
 
-        public ImageController(ILogger<ImageController> logger, ImageFileHandler imageFileHandler, IWebHostEnvironment env)
+        public ImageController(ILogger<ImageController> logger, ImageFileProcessor imageFileHandler, IWebHostEnvironment env)
         {
             _logger = logger;
             _imageFileHandler = imageFileHandler;
@@ -21,7 +21,8 @@ namespace ImageProcessingApi.Controllers
 
 
         [HttpPost("process")]
-        public async Task<IActionResult> Process(/*[FromForm]*/ IFormFile file)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Process( IFormFile file,[FromForm] string encodingType, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
@@ -29,7 +30,7 @@ namespace ImageProcessingApi.Controllers
             var inputPath = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads");
             var id = Guid.NewGuid().ToString();
 
-            await _imageFileHandler.ProcessImage(file, inputPath, id);
+            await _imageFileHandler.ProcessImage(file, inputPath, id, cancellationToken);
 
             var downloadUrl = Url.Action(
                 nameof(Download),            

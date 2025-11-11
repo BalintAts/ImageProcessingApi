@@ -16,7 +16,7 @@ namespace ImageProcessingApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<ImageFileHandler, ImageFileHandler>();
+            builder.Services.AddScoped<ImageFileProcessor, ImageFileProcessor>();
 
 
             var app = builder.Build();

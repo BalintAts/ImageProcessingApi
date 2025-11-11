@@ -11,6 +11,9 @@ using namespace msclr::interop;
 //using namespace System::Runtime::InteropServices;
 using namespace cv;
 
+/// <summary>
+/// process, encode
+/// </summary>
 namespace ImageProcessor {
 	array<System::Byte>^ Processor::Process(array<System::Byte>^ imageBytes) {
 		std::vector<uchar> buffer(imageBytes->Length);
@@ -31,4 +34,13 @@ namespace ImageProcessor {
 		
 		return result;
 	};
+
+	Mat FromBytesToMat(array<System::Byte>^ imageBytes) {
+		std::vector<uchar> buffer(imageBytes->Length);
+		System::Runtime::InteropServices::Marshal::Copy(imageBytes, 0, System::IntPtr(buffer.data()), imageBytes->Length);
+		Mat image = imdecode(buffer, IMREAD_COLOR);
+		if (image.empty())
+			throw gcnew System::Exception("");  //todo: custom exception
+		return image;
+	}
 }
