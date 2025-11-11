@@ -7,7 +7,7 @@ namespace ImageProcessingApi.Logic
         public async Task ProcessImage(IFormFile image, string inputPath, string id)
         {
             Directory.CreateDirectory(inputPath);
-            var outputFile = Path.Combine(inputPath, $"{id}.png");
+            var outputFile = Path.Combine(inputPath, $"{id}.jpg");
 
             using (var stream = new MemoryStream())
             {
@@ -15,7 +15,7 @@ namespace ImageProcessingApi.Logic
                 var imageBytes = stream.ToArray();
 
                 var processedImageBytes = await Task.Run(() => Processor.Process(imageBytes));
-                await System.IO.File.WriteAllBytesAsync(outputFile, imageBytes);
+                await System.IO.File.WriteAllBytesAsync(outputFile, processedImageBytes);
             }
         }
     }

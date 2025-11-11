@@ -44,14 +44,16 @@ namespace ImageProcessingApi.Controllers
         [HttpGet("download/{id}")]
         public async Task<IActionResult> Download(string id)
         {
-            var path = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads", $"{id}.png");
+            var path = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads", $"{id}.jpg");
             if (!System.IO.File.Exists(path))
                 return NotFound();
 
             var bytes = await System.IO.File.ReadAllBytesAsync(path);
-            return File(bytes, "image/png", $"{id}.png");
+            return File(bytes, "image/png", $"{id}.jpg");  //todo: kiterjesztést mindenhol át kell adni
         }
 
         //todo using problems details
     }
 }
+
+// megh: input:  binary string,  jpgbe konvertál mindig   
