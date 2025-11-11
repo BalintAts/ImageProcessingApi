@@ -10,5 +10,7 @@ using namespace msclr::interop;
 
 
 namespace ImageProcessor {
-	void Processor::Process() {};
+	array<System::Byte>^ Processor::Process(array<System::Byte>^ imageBytes) {
+		return gcnew array<System::Byte>(0);
+	};
 }

@@ -1,9 +1,10 @@
 #pragma once
 
+//using namespace System;
 
 namespace ImageProcessor {
 	public ref class Processor {
 	public:
-		static void Process();
+		static array<System::Byte>^ Process(array<System::Byte>^ imageBytes);
 	};
 }

@@ -12,10 +12,10 @@ namespace ImageProcessingApi.Logic
             using (var stream = new MemoryStream())
             {
                 await image.CopyToAsync(stream);
-                var bytes = stream.ToArray();
+                var imageBytes = stream.ToArray();
 
-                Processor.Process();
-                await System.IO.File.WriteAllBytesAsync(outputFile, bytes);
+                var processedImageBytes = await Task.Run(() => Processor.Process(imageBytes));
+                await System.IO.File.WriteAllBytesAsync(outputFile, imageBytes);
             }
         }
     }
