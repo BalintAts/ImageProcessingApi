@@ -27,6 +27,8 @@ namespace ImageProcessingApi.Controllers
         {
             //var result = await _imageFileHandler.ProcessImage(file, encodingType, cancellationToken);
 
+
+            throw new Exception("alma, körte , szőlő");
                 return Problem(
                     title: "User not found",
                     statusCode: 404,
