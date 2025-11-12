@@ -49,6 +49,7 @@ namespace ImageProcessor {
 		//	throw gcnew Exception("");
 		Mat image = FromBytesToMat(imageBytes);
 		Mat blurredImage;
+		cv::setNumThreads(cv::getNumberOfCPUs());
 		GaussianBlur(image, blurredImage, Size(9, 9), 2.0);
 		//std::vector<uchar> outBuf;
 		//imencode(marshal_as<std::string>(extension), blurredImage, outBuf);

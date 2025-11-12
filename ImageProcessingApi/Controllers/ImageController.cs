@@ -22,7 +22,7 @@ namespace ImageProcessingApi.Controllers
 
         [HttpPost("process")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Process(IFormFile file,[FromForm] EncodingType encodingType, CancellationToken cancellationToken)
+        public async Task<IActionResult> Process(IFormFile file, [FromForm] EncodingType encodingType, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
@@ -33,10 +33,10 @@ namespace ImageProcessingApi.Controllers
             await _imageFileHandler.ProcessImage(file, inputPath, encodingType, id, cancellationToken);
 
             var downloadUrl = Url.Action(
-                nameof(Download),            
-                "Image",                    
-                new { id },                  
-                Request.Scheme                
+                nameof(Download),
+                "Image",
+                new { id },
+                Request.Scheme
             );
 
             return Ok(new { downloadUrl });
@@ -54,7 +54,18 @@ namespace ImageProcessingApi.Controllers
         }
 
         //todo using problems details
+
+        [HttpPost("process2")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Process2(IFormFile file, [FromForm] EncodingType encodingType, CancellationToken cancellationToken)
+        {
+            var inputPath = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads");
+            var id = $"{Guid.NewGuid().ToString()}{encodingType.GetExtension()}";
+            var result = await _imageFileHandler.ProcessImage2(file, inputPath, encodingType, id, cancellationToken);
+
+
+            return new FileStreamResult(new MemoryStream(result), "image/png");
+        }
     }
 }
-
 // megh: input:  binary string,  jpgbe konvertál mindig   
