@@ -22,15 +22,15 @@ namespace ImageProcessingApi.Controllers
 
         [HttpPost("process")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Process( IFormFile file,[FromForm] string encodingType, CancellationToken cancellationToken)
+        public async Task<IActionResult> Process(IFormFile file,[FromForm] EncodingType encodingType, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
 
             var inputPath = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads");
-            var id = Guid.NewGuid().ToString();
+            var id = $"{Guid.NewGuid().ToString()}{encodingType.GetExtension()}";
 
-            await _imageFileHandler.ProcessImage(file, inputPath, id, cancellationToken);
+            await _imageFileHandler.ProcessImage(file, inputPath, encodingType, id, cancellationToken);
 
             var downloadUrl = Url.Action(
                 nameof(Download),            
@@ -45,12 +45,12 @@ namespace ImageProcessingApi.Controllers
         [HttpGet("download/{id}")]
         public async Task<IActionResult> Download(string id)
         {
-            var path = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads", $"{id}.jpg");
+            var path = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads", id);
             if (!System.IO.File.Exists(path))
                 return NotFound();
 
             var bytes = await System.IO.File.ReadAllBytesAsync(path);
-            return File(bytes, "image/png", $"{id}.jpg");  //todo: kiterjesztést mindenhol át kell adni
+            return File(bytes, "image/png", id);  //todo: kiterjesztést mindenhol át kell adni, todo:  contetnTpe
         }
 
         //todo using problems details

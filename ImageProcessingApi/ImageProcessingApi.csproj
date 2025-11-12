@@ -14,8 +14,4 @@
     <ProjectReference Include="..\ImageProcessor\ImageProcessor.vcxproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CustomSwagger\" />
-  </ItemGroup>
-
 </Project>
