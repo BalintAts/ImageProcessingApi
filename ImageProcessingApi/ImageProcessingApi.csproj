@@ -14,4 +14,8 @@
     <ProjectReference Include="..\ImageProcessor\ImageProcessor.vcxproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>
