@@ -1,7 +1,5 @@
 #pragma once
 
-//using namespace System;
-
 namespace ImageProcessor {
 	public ref class Processor {
 	public:

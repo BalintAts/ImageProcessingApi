@@ -6,18 +6,14 @@
 
 
 using namespace msclr::interop;
-//using namespace System;
-//using namespace System::Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 using namespace cv;
 
-/// <summary>
-/// process, encode
-/// </summary>
 namespace ImageProcessor {
 
 	static Mat FromBytesToMat(array<System::Byte>^ imageBytes) {
 		std::vector<uchar> buffer(imageBytes->Length);
-		System::Runtime::InteropServices::Marshal::Copy(imageBytes, 0, System::IntPtr(buffer.data()), imageBytes->Length);
+		Marshal::Copy(imageBytes, 0, System::IntPtr(buffer.data()), imageBytes->Length);
 		Mat image = imdecode(buffer, IMREAD_COLOR);
 		return image;
 	}
@@ -26,7 +22,7 @@ namespace ImageProcessor {
 		std::vector<uchar> outBuf;
 		imencode(marshal_as<std::string>(extension), image, outBuf);
 		array<System::Byte>^ result = gcnew array< System::Byte>(outBuf.size());
-		System::Runtime::InteropServices::Marshal::Copy(System::IntPtr(outBuf.data()), result, 0, outBuf.size());
+		Marshal::Copy(System::IntPtr(outBuf.data()), result, 0, outBuf.size());
 		return result;
 	}
 
@@ -39,7 +35,7 @@ namespace ImageProcessor {
 	array<System::Byte>^ Processor::Process(array<System::Byte>^ imageBytes, System::String^ extension) {
 		Mat image = FromBytesToMat(imageBytes);
 		Mat blurredImage;
-		cv::setNumThreads(cv::getNumberOfCPUs());
+		setNumThreads(getNumberOfCPUs());
 		GaussianBlur(image, blurredImage, Size(9, 9), 2.0);
 		return FromMatToBytes(blurredImage, extension);
 	}
