@@ -1,5 +1,4 @@
 ﻿using ImageProcessingApi.Logic;
-//using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageProcessingApi.Controllers
@@ -24,9 +23,7 @@ namespace ImageProcessingApi.Controllers
         public async Task<IActionResult> Process(IFormFile file, [FromForm] EncodingType encodingType, CancellationToken cancellationToken)
         {
             var result = await _imageFileHandler.ProcessImage(file, encodingType, cancellationToken);
-            throw new Exception("alma körte szőlő");
             return new FileStreamResult(new MemoryStream(result), encodingType.GetMimeType());
         }
     }
 }
-// megh: input:  binary string ,  _logger, _env ?
