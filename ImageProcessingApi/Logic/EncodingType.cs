@@ -11,16 +11,24 @@ namespace ImageProcessingApi.Logic
 
     public static class EncodingTypeExtension
     {
-        public static string GetExtension(this EncodingType encodingType)
+        /// <summary>
+        /// Gets the file extension of the encoding type (with the ".") 
+        /// </summary>
+        public static string GetFileExtension(this EncodingType encodingType) => encodingType switch
         {
-            switch (encodingType)
-            {
-                case EncodingType.PNG:
-                    return ".png";
-                case EncodingType.JPG:
-                default:
-                    return ".jpg";
-            }
-        }
+            EncodingType.PNG => ".png",
+            EncodingType.JPG => ".jpg",
+            _ => throw new NotImplementedException("No file extension exists for this encoding type."),
+        };
+
+        /// <summary>
+        /// Gets the MIME type of a file encoded with the gicen encoding type.
+        /// </summary>
+        public static string GetMimeType(this EncodingType encodingType) => encodingType switch
+        {
+            EncodingType.PNG => "image/png",
+            EncodingType.JPG => "image/jpeg",
+            _ => throw new NotImplementedException("No MIME type exists for this encoding type."),
+        };
     }
 }

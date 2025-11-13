@@ -7,6 +7,9 @@ namespace ImageProcessingApi.Logic
     /// </summary>
     public class ImageFileProcessor
     {
+        /// <summary>
+        /// Asyncronuously processes the image and returns it as bytes.
+        /// </summary>
         public async Task<byte[]> ProcessImage(IFormFile image, EncodingType encodingType, CancellationToken cancellationToken)
         {
             using (var stream = new MemoryStream())
@@ -14,9 +17,7 @@ namespace ImageProcessingApi.Logic
                 await image.CopyToAsync(stream, cancellationToken);
                 var imageBytes = stream.ToArray();
 
-                return null;
-
-                return await Task.Run(() => Processor.Process(imageBytes, encodingType.GetExtension()), cancellationToken);
+                return await Task.Run(() => Processor.Process(imageBytes, encodingType.GetFileExtension()), cancellationToken);
             }
         }
     }
