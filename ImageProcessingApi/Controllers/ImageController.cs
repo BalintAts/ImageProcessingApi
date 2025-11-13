@@ -24,6 +24,7 @@ namespace ImageProcessingApi.Controllers
         public async Task<IActionResult> Process(IFormFile file, [FromForm] EncodingType encodingType, CancellationToken cancellationToken)
         {
             var result = await _imageFileHandler.ProcessImage(file, encodingType, cancellationToken);
+            throw new Exception("alma körte szőlő");
             return new FileStreamResult(new MemoryStream(result), encodingType.GetMimeType());
         }
     }
