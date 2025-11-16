@@ -26,16 +26,27 @@ namespace ImageProcessor {
 		return result;
 	}
 
+	static bool openCvInitialized = false;
+
 	/// <summary>
-	/// Applies a gaussian blur for a given image.
+	/// Applies a gaussian blur for a given image. Returns an empty array if the provided image is invalid.
 	/// </summary>
 	/// <param name="imageBytes">Image in bytes.</param>
 	/// <param name="extension"> The format to into which the image will be encoded by opencv. </param>
-	/// <returns>The new image in bytes, encoded into the given format.</returns>
+	/// <returns>The new image in bytes, encoded into the given format. .</returns>
 	array<System::Byte>^ Processor::Process(array<System::Byte>^ imageBytes, System::String^ extension) {
 		Mat image = FromBytesToMat(imageBytes);
+
+		if (image.empty())
+		{
+			return gcnew array<System::Byte>(0);
+		}
+
 		Mat blurredImage;
-		setNumThreads(getNumberOfCPUs());
+		if (!openCvInitialized) {
+			setNumThreads(getNumberOfCPUs());
+			openCvInitialized = true;
+		}
 		GaussianBlur(image, blurredImage, Size(9, 9), 2.0);
 		return FromMatToBytes(blurredImage, extension);
 	}

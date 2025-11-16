@@ -8,7 +8,7 @@ namespace ImageProcessingApi.Logic
     public class ImageFileProcessor
     {
         /// <summary>
-        /// Asyncronuously processes the image and returns it as bytes.
+        /// Asyncronuously processes the image and returns it as bytes. Returns an empty array if the provided image is invalid.
         /// </summary>
         public async Task<byte[]> ProcessImage(IFormFile image, EncodingType encodingType, CancellationToken cancellationToken)
         {

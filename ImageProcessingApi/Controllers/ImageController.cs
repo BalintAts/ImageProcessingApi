@@ -23,6 +23,12 @@ namespace ImageProcessingApi.Controllers
         public async Task<IActionResult> Process(IFormFile file, [FromForm] EncodingType encodingType, CancellationToken cancellationToken)
         {
             var result = await _imageFileHandler.ProcessImage(file, encodingType, cancellationToken);
+            if (result.Length == 0)
+            {
+                var errorMessage = "Could not encode the provided image.";
+                _logger.LogError(errorMessage);
+                return Problem(errorMessage);
+            }
             return new FileStreamResult(new MemoryStream(result), encodingType.GetMimeType());
         }
     }
