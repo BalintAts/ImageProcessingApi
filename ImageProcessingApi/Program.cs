@@ -19,17 +19,6 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        //builder.Services.AddProblemDetails(options =>
-        //{
-        //    options.CustomizeProblemDetails = context =>
-        //    {
-        //        var exception = context.HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-        //        if (exception is not null)
-        //        {
-        //            context.ProblemDetails.Detail = exception.Message;
-        //        }
-        //    };
-        //});
 
         builder.Services.AddScoped<ImageFileProcessor, ImageFileProcessor>();
 
